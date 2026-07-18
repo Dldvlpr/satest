@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Penal Code — The State of San Andreas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  /* couleurs relevées directement sur les images */
+  --marine:#0A1B33;
+  --or:#B59455;
+  --or-clair:#D8BE8A;
+  --papier:#E6DED4;
+  --encre:#22303F;
+  --encre-doux:#3B4A5A;
+
+  /* marges calées sur les filets dorés de pages.png */
+  --m-haut:9%;
+  --m-bas:8.4%;
+  --m-gouttiere:8%;
+  --m-tranche:19%;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;overflow:hidden;color:var(--papier);
+  font-family:"Spectral",Georgia,serif;
+  background:radial-gradient(ellipse at 50% 40%,#132741 0%,#050B14 72%)}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+/* ===== Scène ===== */
+#scene{position:fixed;inset:0;display:grid;place-items:center}
+#stage{position:relative;width:1484px;height:1060px;transform-origin:center center}
+#book{position:absolute;inset:0;
+  background:url("assets/pages.webp") center/100% 100% no-repeat;
+  perspective:2800px;
+  filter:drop-shadow(0 40px 70px rgba(0,0,0,.7))}
+
+/* ===== Pages ===== */
+.page{position:absolute;top:0;width:50%;height:100%;display:flex;flex-direction:column;
+  color:var(--encre);overflow:hidden}
+.page.left {left:0;   padding:var(--m-haut) var(--m-gouttiere) var(--m-bas) var(--m-tranche)}
+.page.right{left:50%; padding:var(--m-haut) var(--m-tranche) var(--m-bas) var(--m-gouttiere)}
+.page-inner{flex:1;min-height:0;overflow:hidden}
+
+/* ===== En-tête / pied ===== */
+.p-head{display:flex;align-items:center;justify-content:center;gap:14px;
+  padding-bottom:12px;border-bottom:1.5px solid rgba(10,27,51,.45);margin-bottom:26px}
+.p-head h4{margin:0;font-family:"Cormorant Garamond",serif;font-weight:700;font-size:20px;
+  letter-spacing:.14em;color:var(--marine);text-transform:uppercase}
+.p-head h5{margin:2px 0 0;font-family:"Cormorant Garamond",serif;font-weight:600;font-size:13px;
+  letter-spacing:.20em;color:#8A6F3C;text-transform:uppercase}
+.p-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:10px;
+  border-top:1.5px solid rgba(10,27,51,.45);margin-top:18px;
+  font-family:"Cormorant Garamond",serif;font-size:11.5px;letter-spacing:.16em;
+  color:#6E6455;text-transform:uppercase}
+.p-foot .fleuron{color:var(--or);letter-spacing:.3em;font-size:12px}
+
+/* ===== Blocs ===== */
+.b-livre{text-align:center;margin:4px 0 26px}
+.b-livre .tag{display:inline-block;background:var(--marine);color:var(--or-clair);
+  font-family:"Cormorant Garamond",serif;font-weight:700;font-size:17px;letter-spacing:.26em;padding:6px 24px 5px}
+.b-livre h2{margin:16px 0 0;font-family:"Cormorant Garamond",serif;font-weight:700;font-size:34px;
+  line-height:1.12;color:var(--marine);text-transform:uppercase}
+.b-livre .rule{margin-top:14px;color:var(--or);letter-spacing:.35em;font-size:13px}
+
+.b-titre{text-align:center;margin:0 0 24px}
+.b-titre .k{font-family:"Cormorant Garamond",serif;font-weight:700;font-size:19px;letter-spacing:.2em;color:var(--marine)}
+.b-titre .n{font-family:"Cormorant Garamond",serif;font-weight:600;font-size:17px;letter-spacing:.09em;
+  color:var(--encre);text-transform:uppercase;margin-top:2px}
+
+.b-art{display:grid;grid-template-columns:54px 1fr;gap:16px;padding-bottom:16px;margin-bottom:16px;
+  border-bottom:1px solid rgba(10,27,51,.25)}
+.b-art:last-child{border-bottom:0}
+.b-art .num{background:var(--marine);color:#fff;text-align:center;padding:7px 0 9px;height:max-content}
+.b-art .num small{display:block;font-family:"Cormorant Garamond",serif;font-size:8.5px;
+  letter-spacing:.16em;color:var(--or-clair);text-transform:uppercase}
+.b-art .num b{display:block;font-family:"Cormorant Garamond",serif;font-size:21px;font-weight:700;line-height:1.1}
+.b-art h3{margin:0 0 6px;font-family:"Cormorant Garamond",serif;font-weight:700;font-size:17px;
+  letter-spacing:.07em;color:var(--marine);text-transform:uppercase}
+.b-art p{margin:0 0 7px;font-size:14px;line-height:1.62;text-align:justify;hyphens:auto;color:var(--encre-doux)}
+.b-art .peine{display:inline-block;margin-top:2px;font-family:"Cormorant Garamond",serif;font-size:12.5px;
+  letter-spacing:.08em;color:#8A6F3C;border-top:1px solid rgba(181,148,85,.6);padding-top:5px}
+.b-art.cible{animation:cible 1.6s ease}
+@keyframes cible{0%,60%{background:rgba(181,148,85,.22)}100%{background:transparent}}
+
+/* ===== Page de garde ===== */
+.garde{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%}
+.garde .flourish{color:var(--or);letter-spacing:.4em;font-size:15px;margin:18px 0 24px}
+.garde h1{margin:0;font-family:"Cormorant Garamond",serif;font-weight:700;font-size:46px;line-height:1.05;
+  color:var(--marine);text-transform:uppercase}
+.garde .sub{font-family:"Cormorant Garamond",serif;font-size:20px;letter-spacing:.3em;color:#8A6F3C;
+  margin-top:12px;text-transform:uppercase}
+.garde .sep{width:72%;height:1px;background:linear-gradient(90deg,transparent,var(--or),transparent);margin:24px 0}
+.garde h2{margin:0;font-family:"Cormorant Garamond",serif;font-weight:600;font-size:58px;
+  color:var(--encre);text-transform:uppercase}
+.garde .edition{font-family:"Cormorant Garamond",serif;font-weight:700;font-size:19px;letter-spacing:.22em;
+  color:var(--marine);margin-top:28px;text-transform:uppercase}
+.garde .devise{font-family:"Cormorant Garamond",serif;font-size:16px;letter-spacing:.26em;color:#8A6F3C;margin-top:10px}
+
+/* ===== Sommaire imprimé ===== */
+.b-somm h2{margin:0 0 4px;text-align:center;font-family:"Cormorant Garamond",serif;font-weight:700;
+  font-size:30px;letter-spacing:.14em;color:var(--marine);text-transform:uppercase}
+.b-somm .rule{text-align:center;color:var(--or);letter-spacing:.35em;font-size:13px;margin-bottom:20px}
+.b-somm .sl{margin:16px 0 6px;font-family:"Cormorant Garamond",serif;font-weight:700;font-size:14px;
+  letter-spacing:.18em;color:var(--marine);text-transform:uppercase}
+.b-somm .st{margin:8px 0 4px;font-family:"Cormorant Garamond",serif;font-size:13px;letter-spacing:.06em;
+  color:#6E6455;font-style:italic}
+.b-somm .sa{display:flex;align-items:baseline;gap:8px;font-size:13px;color:var(--encre-doux);
+  padding:2px 0 2px 10px;cursor:pointer}
+.b-somm .sa:hover{color:var(--marine)}
+.b-somm .sa b{font-family:"Cormorant Garamond",serif;color:var(--marine);min-width:32px}
+.b-somm .sa .pt{flex:1;border-bottom:1px dotted rgba(10,27,51,.4);transform:translateY(-3px)}
+.b-somm .sa i{font-style:normal;font-family:"Cormorant Garamond",serif;color:#8A6F3C}
+
+/* ===== Feuille qui tourne ===== */
+#leaf{position:absolute;top:0;left:50%;width:50%;height:100%;z-index:8;
+  transform-origin:left center;transform-style:preserve-3d;display:none}
+#leaf .face{position:absolute;inset:0;backface-visibility:hidden;overflow:hidden;
+  background:url("assets/pages.webp") no-repeat;background-size:200% 100%;
+  display:flex;flex-direction:column;color:var(--encre)}
+#leaf .face.front{background-position:right center;
+  padding:var(--m-haut) var(--m-tranche) var(--m-bas) var(--m-gouttiere)}
+#leaf .face.back{background-position:left center;transform:rotateY(180deg);
+  padding:var(--m-haut) var(--m-gouttiere) var(--m-bas) var(--m-tranche)}
+#leaf.anim{transition:transform .62s cubic-bezier(.4,.05,.2,1)}
+
+/* ===== Chrome ===== */
+#bar{position:fixed;top:0;left:0;right:0;height:56px;display:flex;align-items:center;gap:10px;
+  padding:0 18px;z-index:40;background:linear-gradient(180deg,rgba(5,11,20,.92),rgba(5,11,20,0))}
+.btn{padding:8px 16px;border:1px solid rgba(181,148,85,.5);color:var(--or-clair);border-radius:2px;
+  font-family:"Cormorant Garamond",serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;transition:.2s}
+.btn:hover{background:rgba(181,148,85,.16);border-color:var(--or)}
+.btn:focus-visible{outline:2px solid var(--or-clair);outline-offset:2px}
+#folio{margin-left:auto;font-family:"Cormorant Garamond",serif;letter-spacing:.18em;color:#7E8DA0;
+  font-size:13px;text-transform:uppercase}
+
+.nav{position:fixed;top:50%;transform:translateY(-50%);z-index:35;width:54px;height:54px;border-radius:50%;
+  border:1px solid rgba(181,148,85,.45);color:var(--or-clair);font-size:22px;display:grid;place-items:center;transition:.2s}
+.nav:hover{background:rgba(181,148,85,.18)}
+.nav[disabled]{opacity:.2;pointer-events:none}
+#prev{left:18px} #next{right:18px}
+
+#tabs{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:36;display:flex;flex-direction:column;gap:4px}
+#tabs button{writing-mode:vertical-rl;padding:16px 7px;background:var(--marine);color:var(--or-clair);
+  font-family:"Cormorant Garamond",serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  border-radius:3px 0 0 3px;border:1px solid rgba(181,148,85,.4);border-right:0;transition:.2s}
+#tabs button:hover,#tabs button.on{background:var(--or);color:#0A1B33}
+
+#drawer{position:fixed;inset:0 auto 0 0;width:390px;z-index:60;background:#08182C;
+  border-right:1px solid rgba(181,148,85,.35);transform:translateX(-100%);
+  transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+#drawer.open{transform:none}
+#drawer header{padding:22px 24px 16px;border-bottom:1px solid rgba(181,148,85,.25)}
+#drawer h3{margin:0;font-family:"Cormorant Garamond",serif;font-size:22px;letter-spacing:.2em;
+  color:var(--or-clair);text-transform:uppercase}
+#q{width:100%;margin-top:14px;padding:11px 13px;background:rgba(255,255,255,.06);color:var(--papier);
+  border:1px solid rgba(181,148,85,.35);border-radius:2px;font-family:"Spectral",serif;font-size:14px}
+#q::placeholder{color:#6E7F93}
+#q:focus{outline:none;border-color:var(--or)}
+#toc{flex:1;overflow:auto;padding:12px 14px 30px}
+#toc .l{margin:14px 0 6px;font-family:"Cormorant Garamond",serif;font-size:12px;letter-spacing:.24em;
+  color:var(--or);text-transform:uppercase}
+#toc .t{margin:10px 0 4px;padding-left:10px;font-family:"Cormorant Garamond",serif;font-size:15px;
+  letter-spacing:.08em;color:#AFC0D2}
+#toc a{display:flex;gap:10px;align-items:baseline;padding:7px 10px 7px 20px;color:#9FB0C2;
+  text-decoration:none;font-size:13.5px;border-left:1px solid rgba(181,148,85,.2);transition:.15s}
+#toc a:hover{background:rgba(181,148,85,.14);color:var(--papier);border-left-color:var(--or)}
+#toc a b{font-family:"Cormorant Garamond",serif;color:var(--or);font-weight:700;min-width:32px}
+#toc a i{margin-left:auto;font-style:normal;font-size:11px;letter-spacing:.1em;color:#5E7086}
+#toc .vide{padding:24px 10px;color:#5E7086;font-size:13.5px}
+#scrim{position:fixed;inset:0;background:rgba(3,8,15,.65);z-index:50;opacity:0;pointer-events:none;transition:.3s}
+#scrim.on{opacity:1;pointer-events:auto}
+
+/* ===== Couverture fermée ===== */
+#couv{position:fixed;inset:0;z-index:70;display:grid;place-items:center;
+  background:radial-gradient(ellipse at 50% 45%,#132741 0%,#050B14 72%);transition:opacity .6s ease}
+#couv.parti{opacity:0;pointer-events:none}
+#couv .pile{display:flex;flex-direction:column;align-items:center;gap:26px}
+#couv img{max-height:76vh;max-width:86vw;cursor:pointer;
+  filter:drop-shadow(0 34px 60px rgba(0,0,0,.75));
+  transition:transform .5s cubic-bezier(.2,.7,.2,1),filter .5s}
+#couv img:hover{transform:translateY(-8px) rotate(-1deg) scale(1.015);
+  filter:drop-shadow(0 44px 70px rgba(0,0,0,.8))}
+
+/* ===== États ===== */
+#etat{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:40px;
+  background:radial-gradient(ellipse at 50% 40%,#132741 0%,#050B14 72%)}
+#etat .carte{max-width:560px;text-align:center}
+#etat h1{font-family:"Cormorant Garamond",serif;font-weight:700;font-size:28px;letter-spacing:.12em;
+  color:var(--or-clair);text-transform:uppercase;margin:0 0 14px}
+#etat p{color:#9FB0C2;font-size:15px;line-height:1.7;margin:0 0 12px}
+#etat code{display:block;margin-top:14px;padding:12px 16px;background:rgba(255,255,255,.06);
+  border:1px solid rgba(181,148,85,.35);color:var(--or-clair);font-family:ui-monospace,monospace;
+  font-size:13px;text-align:left}
+#etat.parti{display:none}
+
+@media (prefers-reduced-motion:reduce){
+  #leaf.anim{transition:none}
+  #drawer,#couv,#couv img{transition:none}
+}
+</style>
+
+<div id="bar">
+  <button class="btn" id="openToc">Sommaire</button>
+  <button class="btn" id="openSearch">Rechercher</button>
+  <button class="btn" id="fermerLivre">Couverture</button>
+  <div id="folio"></div>
+</div>
+
+<button class="nav" id="prev" aria-label="Page précédente">‹</button>
+<button class="nav" id="next" aria-label="Page suivante">›</button>
+<div id="tabs"></div>
+
+<div id="scene"><div id="stage">
+  <div id="book">
+    <div class="page left"  id="pgL"></div>
+    <div class="page right" id="pgR"></div>
+    <div id="leaf"><div class="face front"></div><div class="face back"></div></div>
+  </div>
+</div></div>
+
+<div id="scrim"></div>
+<aside id="drawer">
+  <header>
+    <h3>Sommaire</h3>
+    <input id="q" type="search" placeholder="Article, infraction, mot-clé…" autocomplete="off">
+  </header>
+  <nav id="toc"></nav>
+</aside>
+
+<div id="couv"><div class="pile">
+  <img src="assets/couverture.webp" alt="Penal Code — The State of San Andreas" id="couvImg">
+  <button class="btn" id="ouvrirLivre">Ouvrir le recueil</button>
+</div></div>
+
+<div id="etat"><div class="carte">
+  <h1 id="etat-t">Ouverture du recueil</h1>
+  <div id="etat-c"><p>Chargement de <b>code-penal.json</b>…</p></div>
+</div></div>
+
+<script>
+const FICHIER = "code-penal.json";
+let META = {}, CODE = [];
+
+const esc = s => String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const romain = n => ["","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII"][n]||n;
+const norm = s => s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+
+/* ---------- Blocs ---------- */
+const headHTML = () => `<div class="p-head"><div style="text-align:center">
+  <h4>${esc(META.organisation)}</h4><h5>${esc(META.departement)}</h5></div></div>`;
+const footHTML = p => `<div class="p-foot"><span>${esc(META.piedDePage)}</span>
+  <span class="fleuron">&#10086;</span><span>Page ${p}</span></div>`;
+const gardeHTML = () => `<div class="garde">
+  <div class="flourish">&#10087; &#10086; &#10087;</div>
+  <h1>${esc(META.organisation)}</h1>
+  <div class="sub">${esc(META.departement)}</div><div class="sep"></div>
+  <h2>${esc(META.titre)}</h2><div class="sep"></div>
+  <div class="edition">${esc(META.edition)}</div>
+  <div class="devise">${esc(META.devise||"")}</div></div>`;
+const blocLivre = l => `<div class="b-livre"><span class="tag">${esc(l.livre)}</span>
+  <h2>${esc(l.nom)}</h2><div class="rule">&#10070;</div></div>`;
+const blocTitre = (t,i) => `<div class="b-titre"><div class="k">Titre ${romain(i+1)}</div>
+  <div class="n">${esc(t.nom)}</div></div>`;
+const blocArticle = a => `<div class="b-art" id="art-${esc(a.n)}">
+  <div class="num"><small>Article</small><b>${esc(a.n)}</b></div>
+  <div><h3>${esc(a.t)}</h3>${(a.p||[]).map(x=>`<p>${esc(x)}</p>`).join("")}
+  ${a.peine?`<div class="peine">${esc(a.peine)}</div>`:""}</div></div>`;
+
+/* ---------- Pagination mesurée ---------- */
+const pages=[], indexArticles=[], ancresLivre=[];
+
+function paginer(){
+  pages.length=0; indexArticles.length=0; ancresLivre.length=0;
+  pages.push({garde:true});
+  pages.push({sommaire:true});
+
+  const m=document.createElement("div");
+  m.className="page right"; m.style.cssText="position:absolute;visibility:hidden;left:-9999px;top:0";
+  m.innerHTML=headHTML()+'<div class="page-inner" id="mi"></div>'+footHTML(0);
+  document.getElementById("book").appendChild(m);
+  const box=m.querySelector("#mi");
+
+  let courant=[];
+  const pousser=()=>{ if(courant.length){ pages.push({blocs:courant.slice()}); courant=[]; box.innerHTML=""; } };
+  const tente=html=>{
+    box.insertAdjacentHTML("beforeend",html);
+    if(box.scrollHeight>box.clientHeight && courant.length){
+      box.lastElementChild.remove(); pousser();
+      box.insertAdjacentHTML("beforeend",html);
+    }
+    courant.push(html);
+    return pages.length;
+  };
+
+  CODE.forEach(l=>{
+    pousser();
+    ancresLivre.push({livre:l.livre, nom:l.nom, page:pages.length});
+    tente(blocLivre(l));
+    (l.titres||[]).forEach((t,i)=>{
+      tente(blocTitre(t,i));
+      (t.articles||[]).forEach(a=>{
+        const p=tente(blocArticle(a));
+        indexArticles.push({n:a.n, t:a.t, livre:l.livre, titre:t.nom,
+          texte:(a.t+" "+(a.p||[]).join(" ")+" "+(a.peine||"")).toLowerCase(), page:p});
+      });
+    });
+  });
+  pousser(); m.remove();
+
+  pages[1]={blocs:[sommaireHTML()]};
+  if(pages.length%2) pages.push({blocs:[]});
+}
+
+function sommaireHTML(){
+  let h=`<div class="b-somm"><h2>Sommaire</h2><div class="rule">&#10070;</div>`;
+  CODE.forEach(l=>{
+    h+=`<div class="sl">${esc(l.livre)} &mdash; ${esc(l.nom)}</div>`;
+    (l.titres||[]).forEach((t,i)=>{
+      h+=`<div class="st">Titre ${romain(i+1)} &middot; ${esc(t.nom)}</div>`;
+      (t.articles||[]).forEach(a=>{
+        const e=indexArticles.find(x=>x.n===a.n);
+        h+=`<div class="sa" data-p="${e.page}" data-n="${esc(a.n)}"><b>${esc(a.n)}</b>
+          <span>${esc(a.t)}</span><span class="pt"></span><i>${e.page+1}</i></div>`;
+      });
+    });
+  });
+  return h+`</div>`;
+}
+
+/* ---------- Rendu & feuilletage ---------- */
+const pgL=document.getElementById("pgL"), pgR=document.getElementById("pgR"),
+      leaf=document.getElementById("leaf"), book=document.getElementById("book");
+let i=0, anim=false, dernierArt=null;
+
+function corps(idx){
+  const p=pages[idx];
+  if(!p) return "";
+  if(p.garde) return gardeHTML();
+  return `${headHTML()}<div class="page-inner">${p.blocs.join("")}</div>${footHTML(idx+1)}`;
+}
+function peindre(){
+  pgL.innerHTML=corps(i); pgR.innerHTML=corps(i+1);
+  document.getElementById("prev").disabled=(i===0);
+  document.getElementById("next").disabled=(i+2>=pages.length);
+  document.getElementById("folio").textContent=`Page ${i+1}–${i+2} sur ${pages.length}`;
+  const l=[...ancresLivre].reverse().find(a=>a.page<=i+1);
+  document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on", !!l&&b.dataset.livre===l.livre));
+}
+function tourner(sens){
+  if(anim) return;
+  const cible=i+sens*2;
+  if(cible<0||cible>=pages.length) return;
+  if(matchMedia("(prefers-reduced-motion:reduce)").matches){ i=cible; peindre(); return; }
+  anim=true;
+  const f=leaf.querySelector(".front"), b=leaf.querySelector(".back");
+  if(sens>0){ pgR.innerHTML=corps(i+3); f.innerHTML=corps(i+1); b.innerHTML=corps(i+2); }
+  else      { pgL.innerHTML=corps(i-2); f.innerHTML=corps(i-1); b.innerHTML=corps(i);   }
+  leaf.style.display="flex"; leaf.classList.remove("anim");
+  leaf.style.transform = sens>0 ? "rotateY(0deg)" : "rotateY(-180deg)";
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    leaf.classList.add("anim");
+    leaf.style.transform = sens>0 ? "rotateY(-180deg)" : "rotateY(0deg)";
+  }));
+  leaf.addEventListener("transitionend",()=>{
+    leaf.style.display="none"; leaf.classList.remove("anim");
+    i=cible; anim=false; peindre();
+  },{once:true});
+}
+function fondu(){
+  pgL.style.transition=pgR.style.transition="none";
+  pgL.style.opacity=pgR.style.opacity=".12"; peindre();
+  requestAnimationFrame(()=>{ pgL.style.transition=pgR.style.transition="opacity .32s";
+    pgL.style.opacity=pgR.style.opacity="1"; });
+}
+function allerA(page){
+  const cible=Math.max(0,Math.min(page%2?page-1:page, pages.length-2));
+  if(cible!==i){ i=cible; fondu(); }
+  fermer(); ouvrirLivre(); setTimeout(surligner,90);
+}
+function surligner(){
+  if(!dernierArt) return;
+  const e=document.getElementById("art-"+dernierArt);
+  if(e){ e.classList.remove("cible"); void e.offsetWidth; e.classList.add("cible"); }
+}
+
+/* ---------- Sommaire latéral + recherche ---------- */
+const toc=document.getElementById("toc"), drawer=document.getElementById("drawer"),
+      scrim=document.getElementById("scrim"), q=document.getElementById("q");
+
+const ligne = a => `<a href="#art-${esc(a.n)}" data-p="${a.page}" data-n="${esc(a.n)}">
+  <b>${esc(a.n)}</b><span>${esc(a.t)}</span><i>p.${a.page+1}</i></a>`;
+
+function rendreToc(filtre=""){
+  const f=norm(filtre.trim());
+  if(!f){
+    toc.innerHTML=CODE.map(l=>`<div class="l">${esc(l.livre)} &mdash; ${esc(l.nom)}</div>`+
+      (l.titres||[]).map((t,k)=>`<div class="t">Titre ${romain(k+1)} &middot; ${esc(t.nom)}</div>`+
+        (t.articles||[]).map(a=>ligne(indexArticles.find(x=>x.n===a.n))).join("")).join("")).join("");
+    return;
+  }
+  const res=indexArticles.filter(a=>norm(a.texte).includes(f)||String(a.n).includes(f));
+  toc.innerHTML = res.length ? res.map(ligne).join("")
+    : `<div class="vide">Aucun article ne correspond à «&nbsp;${esc(filtre)}&nbsp;». Essaie un numéro d'article ou un mot du texte.</div>`;
+}
+toc.addEventListener("click",e=>{ const a=e.target.closest("a"); if(!a) return;
+  e.preventDefault(); dernierArt=a.dataset.n;
+  history.replaceState(null,"","#art-"+a.dataset.n); allerA(+a.dataset.p); });
+book.addEventListener("click",e=>{ const s=e.target.closest(".sa"); if(!s) return;
+  dernierArt=s.dataset.n; allerA(+s.dataset.p); });
+q.addEventListener("input",()=>rendreToc(q.value));
+
+const ouvrir=f=>{ drawer.classList.add("open"); scrim.classList.add("on"); if(f){q.focus();q.select();} };
+const fermer=()=>{ drawer.classList.remove("open"); scrim.classList.remove("on"); };
+document.getElementById("openToc").onclick=()=>{ ouvrirLivre(); ouvrir(false); };
+document.getElementById("openSearch").onclick=()=>{ ouvrirLivre(); ouvrir(true); };
+scrim.onclick=fermer;
+
+/* ---------- Couverture ---------- */
+const couv=document.getElementById("couv");
+const ferme=()=>!couv.classList.contains("parti");
+function ouvrirLivre(){ couv.classList.add("parti"); }
+function fermerLivre(){ couv.classList.remove("parti"); }
+document.getElementById("ouvrirLivre").onclick=ouvrirLivre;
+document.getElementById("couvImg").onclick=ouvrirLivre;
+document.getElementById("fermerLivre").onclick=fermerLivre;
+
+/* ---------- Navigation ---------- */
+document.getElementById("prev").onclick=()=>tourner(-1);
+document.getElementById("next").onclick=()=>tourner(1);
+addEventListener("keydown",e=>{
+  if(e.key==="Escape"){ fermer(); return; }
+  if((e.ctrlKey||e.metaKey)&&e.key==="f"){ e.preventDefault(); ouvrirLivre(); ouvrir(true); return; }
+  if(document.activeElement===q) return;
+  if(ferme()){
+    if(e.key==="Enter"||e.key===" "||e.key==="ArrowRight"){ e.preventDefault(); ouvrirLivre(); }
+    return;
+  }
+  if(e.key==="/"){ e.preventDefault(); ouvrir(true); }
+  if(e.key==="ArrowRight"||e.key===" "){ e.preventDefault(); tourner(1); }
+  if(e.key==="ArrowLeft") tourner(-1);
+  if(e.key==="Home") allerA(0);
+  if(e.key==="End") allerA(pages.length-2);
+});
+let x0=null;
+book.addEventListener("pointerdown",e=>x0=e.clientX);
+book.addEventListener("pointerup",e=>{ if(x0===null) return;
+  const d=e.clientX-x0; x0=null; if(Math.abs(d)>60) tourner(d<0?1:-1); });
+
+function ajuster(){
+  const s=Math.min(innerWidth/1540,(innerHeight-80)/1120,1);
+  document.getElementById("stage").style.transform=`scale(${s})`;
+}
+addEventListener("resize",ajuster);
+
+/* ---------- Chargement ---------- */
+function panne(titre,corpsHTML){
+  document.getElementById("etat-t").textContent=titre;
+  document.getElementById("etat-c").innerHTML=corpsHTML;
+}
+async function demarrer(){
+  let data;
+  try{
+    const r=await fetch(FICHIER,{cache:"no-store"});
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    data=await r.json();
+  }catch(err){
+    if(location.protocol==="file:"){
+      panne("Le navigateur bloque la lecture du fichier",
+        `<p>Ouvert en <b>file://</b>, Chrome refuse de charger <b>${FICHIER}</b>. Lance un serveur local depuis ce dossier :</p>
+         <code>python -m http.server 8000</code>
+         <p style="margin-top:12px">Puis ouvre <b>http://localhost:8000</b>.</p>`);
+    }else{
+      panne("Le recueil n'a pas pu être chargé",
+        `<p>${FICHIER} est introuvable ou mal formé.</p>
+         <p style="color:#6E7F93">Détail : ${esc(err.message)}</p>
+         <p>Vérifie le JSON sur <b>jsonlint.com</b> — une virgule en trop suffit à tout bloquer.</p>`);
+    }
+    return;
+  }
+
+  META=data.meta||{}; CODE=data.livres||[];
+  if(!CODE.length){ panne("Le recueil est vide",`<p>Ajoute au moins un livre dans <b>${FICHIER}</b>.</p>`); return; }
+
+  paginer();
+  document.getElementById("tabs").innerHTML=ancresLivre.map(a=>
+    `<button data-livre="${esc(a.livre)}" data-p="${a.page}" title="${esc(a.nom)}">${esc(a.livre)}</button>`).join("");
+  document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>allerA(+b.dataset.p));
+  rendreToc(); peindre(); ajuster();
+  document.getElementById("etat").classList.add("parti");
+
+  const m=location.hash.match(/^#art-(\w+)$/);
+  if(m){ const e=indexArticles.find(a=>String(a.n)===m[1]);
+    if(e){ dernierArt=e.n; ouvrirLivre(); allerA(e.page); } }
+}
+document.fonts ? document.fonts.ready.then(demarrer) : demarrer();
+</script>
+</html>

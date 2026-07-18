@@ -1,0 +1,332 @@
+{
+  "meta": {
+    "organisation": "San Andreas Republic",
+    "departement": "Department of Justice",
+    "titre": "Code Pénal",
+    "edition": "Édition officielle 2026",
+    "devise": "Justice · Intégrité · Service",
+    "piedDePage": "Code pénal — Édition officielle 2026"
+  },
+
+  "livres": [
+    {
+      "livre": "Livre I",
+      "nom": "Des infractions contre les personnes",
+      "titres": [
+        {
+          "nom": "Des atteintes à l'intégrité physique",
+          "articles": [
+            {
+              "n": 101,
+              "t": "Coups et violences volontaires",
+              "p": [
+                "Constitue une violence volontaire le fait de porter intentionnellement atteinte à l'intégrité physique d'autrui.",
+                "La violence est dite simple lorsqu'elle n'a entraîné aucune incapacité totale de travail."
+              ],
+              "peine": "Classe 2 — 15 mois · 8 000 $"
+            },
+            {
+              "n": 102,
+              "t": "Violences ayant entraîné une incapacité",
+              "p": [
+                "Constitue une violence ayant entraîné une incapacité, totale ou partielle de travail, le fait prévu à l'article 101 ayant causé une altération de la santé d'autrui pendant plus de huit (8) jours."
+              ],
+              "peine": "Classe 3 — 30 mois · 15 000 $"
+            },
+            {
+              "n": 103,
+              "t": "Violences avec usage d'arme",
+              "p": [
+                "Constitue une violence avec usage d'arme le fait prévu aux articles 101 ou 102 commis à l'aide d'une arme ou de tout objet présentant un danger pour les personnes."
+              ],
+              "peine": "Classe 4 — 48 mois · 25 000 $"
+            },
+            {
+              "n": 104,
+              "t": "Violences en réunion",
+              "p": [
+                "Constitue une violence en réunion le fait de participer, en groupe formé ou non, à des violences contre une ou plusieurs personnes."
+              ],
+              "peine": "Classe 3 — 36 mois · 18 000 $"
+            },
+            {
+              "n": 105,
+              "t": "Violences sur personne dépositaire de l'autorité",
+              "p": [
+                "Les peines sont aggravées lorsque la victime est agent de la force publique, personnel médical ou magistrat, et que la qualité de la victime était apparente ou connue de l'auteur."
+              ],
+              "peine": "Classe 4 — 60 mois · 30 000 $"
+            },
+            {
+              "n": 106,
+              "t": "Menaces de mort",
+              "p": [
+                "Constitue une menace de mort le fait de menacer autrui de lui donner la mort, dès lors que la menace est réitérée, matérialisée par un écrit, une image ou tout autre objet, ou assortie de l'ordre de remplir une condition."
+              ],
+              "peine": "Classe 2 — 18 mois · 10 000 $"
+            }
+          ]
+        },
+        {
+          "nom": "Des atteintes à la vie",
+          "articles": [
+            {
+              "n": 111,
+              "t": "Homicide involontaire",
+              "p": [
+                "Constitue un homicide involontaire le fait de causer la mort d'autrui par maladresse, imprudence, inattention, négligence ou manquement à une obligation de prudence.",
+                "La circonstance que l'auteur conduisait un véhicule sous l'empire d'un état alcoolique aggrave la peine."
+              ],
+              "peine": "Classe 5 — 90 mois · 45 000 $"
+            },
+            {
+              "n": 112,
+              "t": "Meurtre",
+              "p": [
+                "Constitue un meurtre le fait de donner volontairement la mort à autrui."
+              ],
+              "peine": "Classe 6 — 180 mois · 90 000 $"
+            },
+            {
+              "n": 113,
+              "t": "Assassinat",
+              "p": [
+                "Constitue un assassinat le meurtre commis avec préméditation ou guet-apens.",
+                "La préméditation est le dessein formé avant l'action de commettre l'atteinte."
+              ],
+              "peine": "Classe 7 — Perpétuité · 150 000 $"
+            },
+            {
+              "n": 114,
+              "t": "Tentative d'homicide",
+              "p": [
+                "La tentative d'homicide est constituée dès lors qu'un commencement d'exécution n'a été suspendu ou n'a manqué son effet qu'en raison de circonstances indépendantes de la volonté de son auteur.",
+                "La tentative est punie des mêmes peines que l'infraction consommée."
+              ],
+              "peine": "Classe 6 — 150 mois · 75 000 $"
+            }
+          ]
+        },
+        {
+          "nom": "Des atteintes à la liberté",
+          "articles": [
+            {
+              "n": 121,
+              "t": "Séquestration",
+              "p": [
+                "Constitue une séquestration le fait d'arrêter, d'enlever, de détenir ou de séquestrer une personne sans ordre des autorités constituées et hors les cas prévus par la loi."
+              ],
+              "peine": "Classe 5 — 84 mois · 40 000 $"
+            },
+            {
+              "n": 122,
+              "t": "Prise d'otage",
+              "p": [
+                "Constitue une prise d'otage la séquestration commise en vue de préparer ou faciliter la commission d'un crime ou d'un délit, de favoriser la fuite de son auteur, ou d'obtenir l'exécution d'un ordre ou d'une condition."
+              ],
+              "peine": "Classe 6 — 144 mois · 80 000 $"
+            },
+            {
+              "n": 123,
+              "t": "Enlèvement",
+              "p": [
+                "Constitue un enlèvement le fait de s'emparer d'une personne et de la déplacer contre sa volonté, par violence, menace ou ruse."
+              ],
+              "peine": "Classe 5 — 96 mois · 50 000 $"
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "livre": "Livre II",
+      "nom": "Des infractions contre les biens",
+      "titres": [
+        {
+          "nom": "Des appropriations frauduleuses",
+          "articles": [
+            {
+              "n": 201,
+              "t": "Vol simple",
+              "p": [
+                "Constitue un vol la soustraction frauduleuse de la chose d'autrui."
+              ],
+              "peine": "Classe 1 — 6 mois · 3 000 $"
+            },
+            {
+              "n": 202,
+              "t": "Vol aggravé",
+              "p": [
+                "Le vol est aggravé lorsqu'il est commis par plusieurs personnes, avec effraction, escalade, usage ou menace d'une arme, ou sur une personne vulnérable."
+              ],
+              "peine": "Classe 3 — 36 mois · 20 000 $"
+            },
+            {
+              "n": 203,
+              "t": "Vol à main armée",
+              "p": [
+                "Constitue un vol à main armée la soustraction frauduleuse commise avec usage ou menace d'une arme, quelle qu'en soit la nature."
+              ],
+              "peine": "Classe 5 — 90 mois · 50 000 $"
+            },
+            {
+              "n": 204,
+              "t": "Braquage d'établissement",
+              "p": [
+                "Constitue un braquage le vol à main armée commis au préjudice d'un établissement bancaire, commercial ou de dépôt de valeurs.",
+                "La prise d'otage concomitante fait l'objet d'un cumul de qualifications."
+              ],
+              "peine": "Classe 6 — 120 mois · 75 000 $"
+            },
+            {
+              "n": 205,
+              "t": "Recel",
+              "p": [
+                "Constitue un recel le fait de dissimuler, de détenir ou de transmettre une chose, ou de faire office d'intermédiaire afin de la transmettre, en sachant qu'elle provient d'un crime ou d'un délit."
+              ],
+              "peine": "Classe 2 — 24 mois · 15 000 $"
+            },
+            {
+              "n": 206,
+              "t": "Vol de véhicule",
+              "p": [
+                "Constitue un vol de véhicule la soustraction frauduleuse d'un véhicule terrestre, aérien ou nautique appartenant à autrui.",
+                "La revente ou le démontage du véhicule constitue une circonstance aggravante."
+              ],
+              "peine": "Classe 3 — 30 mois · 18 000 $"
+            }
+          ]
+        },
+        {
+          "nom": "Des destructions et dégradations",
+          "articles": [
+            {
+              "n": 211,
+              "t": "Dégradation de bien",
+              "p": [
+                "Constitue une dégradation le fait de détruire, dégrader ou détériorer un bien appartenant à autrui."
+              ],
+              "peine": "Classe 1 — 8 mois · 4 000 $"
+            },
+            {
+              "n": 212,
+              "t": "Incendie volontaire",
+              "p": [
+                "Constitue un incendie volontaire la destruction, dégradation ou détérioration d'un bien par l'effet d'une substance explosive, d'un incendie ou de tout autre moyen de nature à créer un danger pour les personnes."
+              ],
+              "peine": "Classe 5 — 96 mois · 60 000 $"
+            },
+            {
+              "n": 213,
+              "t": "Sabotage d'infrastructure",
+              "p": [
+                "Constitue un sabotage le fait d'entraver, par quelque moyen que ce soit, le fonctionnement d'une infrastructure d'intérêt public, notamment énergétique, hospitalière ou de transport."
+              ],
+              "peine": "Classe 6 — 120 mois · 100 000 $"
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "livre": "Livre III",
+      "nom": "Des infractions contre l'autorité publique",
+      "titres": [
+        {
+          "nom": "De l'entrave à l'action de la justice",
+          "articles": [
+            {
+              "n": 301,
+              "t": "Refus d'obtempérer",
+              "p": [
+                "Constitue un refus d'obtempérer le fait pour tout conducteur d'omettre d'obtempérer à une sommation de s'arrêter émanant d'un agent de la force publique."
+              ],
+              "peine": "Classe 2 — 18 mois · 12 000 $"
+            },
+            {
+              "n": 302,
+              "t": "Rébellion",
+              "p": [
+                "Constitue une rébellion le fait d'opposer une résistance violente à une personne dépositaire de l'autorité publique agissant dans l'exercice de ses fonctions."
+              ],
+              "peine": "Classe 2 — 20 mois · 12 000 $"
+            },
+            {
+              "n": 303,
+              "t": "Outrage à agent",
+              "p": [
+                "Constitue un outrage toute parole, geste, menace, écrit ou image de nature à porter atteinte à la dignité ou au respect dû à la fonction d'une personne dépositaire de l'autorité publique."
+              ],
+              "peine": "Classe 1 — 4 mois · 3 000 $"
+            },
+            {
+              "n": 304,
+              "t": "Évasion",
+              "p": [
+                "Constitue une évasion le fait, pour une personne détenue ou placée en garde à vue, de se soustraire à la garde à laquelle elle est soumise.",
+                "L'aide à l'évasion est punie des mêmes peines."
+              ],
+              "peine": "Classe 4 — 60 mois · 30 000 $"
+            },
+            {
+              "n": 305,
+              "t": "Corruption d'agent public",
+              "p": [
+                "Constitue une corruption le fait de proposer, sans droit, des offres, promesses, dons ou avantages quelconques à une personne dépositaire de l'autorité publique, afin qu'elle accomplisse ou s'abstienne d'accomplir un acte de sa fonction."
+              ],
+              "peine": "Classe 5 — 84 mois · 100 000 $"
+            },
+            {
+              "n": 306,
+              "t": "Usurpation de fonction",
+              "p": [
+                "Constitue une usurpation de fonction le fait de s'immiscer dans l'exercice d'une fonction publique, ou de porter un uniforme ou insigne réglementé, sans y être habilité."
+              ],
+              "peine": "Classe 3 — 36 mois · 25 000 $"
+            }
+          ]
+        },
+        {
+          "nom": "Des atteintes à la sécurité publique",
+          "articles": [
+            {
+              "n": 311,
+              "t": "Port d'arme prohibé",
+              "p": [
+                "Constitue un port d'arme prohibé le fait de porter ou transporter une arme sans détenir le permis correspondant en cours de validité."
+              ],
+              "peine": "Classe 3 — 30 mois · 20 000 $"
+            },
+            {
+              "n": 312,
+              "t": "Trafic d'armes",
+              "p": [
+                "Constitue un trafic d'armes le fait de fabriquer, importer, céder ou acquérir des armes ou munitions en dehors du cadre légal."
+              ],
+              "peine": "Classe 5 — 90 mois · 70 000 $"
+            },
+            {
+              "n": 313,
+              "t": "Trafic de stupéfiants",
+              "p": [
+                "Constitue un trafic de stupéfiants le fait de produire, transporter, détenir, offrir ou céder des substances classées comme stupéfiants.",
+                "La quantité, l'organisation en bande et la vente à proximité d'un établissement scolaire constituent des circonstances aggravantes."
+              ],
+              "peine": "Classe 5 — 96 mois · 80 000 $"
+            },
+            {
+              "n": 314,
+              "t": "Association de malfaiteurs",
+              "p": [
+                "Constitue une association de malfaiteurs tout groupement formé ou entente établie en vue de la préparation d'un ou plusieurs crimes, caractérisée par un ou plusieurs faits matériels."
+              ],
+              "peine": "Classe 5 — 84 mois · 60 000 $"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
