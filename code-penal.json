@@ -10,7 +10,7 @@
 
   "livres": [
     {
-      "livre": "Livre I",
+      "livre": "Catégorie I",
       "nom": "Des infractions contre les personnes",
       "titres": [
         {
@@ -140,7 +140,7 @@
     },
 
     {
-      "livre": "Livre II",
+      "livre": "Catégorie II",
       "nom": "Des infractions contre les biens",
       "titres": [
         {
@@ -231,7 +231,7 @@
     },
 
     {
-      "livre": "Livre III",
+      "livre": "Catégorie III",
       "nom": "Des infractions contre l'autorité publique",
       "titres": [
         {

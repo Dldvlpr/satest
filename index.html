@@ -33,9 +33,9 @@ body{margin:0;overflow:hidden;color:var(--papier);
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 /* ===== Scène ===== */
-#scene{position:fixed;inset:0;display:grid;place-items:center;perspective:2400px}
-#stage{position:relative;width:1484px;height:1060px;transform-origin:center center;
-  transform:scale(var(--s,1)) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+#scene{position:fixed;inset:0;overflow:hidden}
+#stage{position:absolute;left:50%;top:50%;width:1484px;height:1060px;transform-origin:center center;
+  transform:translate(-50%,-50%) scale(var(--s,1));
   transition:transform .45s cubic-bezier(.2,.7,.2,1)}
 #book{position:absolute;inset:0;
   background:url("assets/pages.webp") center/100% 100% no-repeat;
@@ -163,17 +163,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 #ombreGouttiere.arriere{right:50%;background:linear-gradient(270deg,rgba(20,12,4,.42),transparent)}
 #ombreGouttiere.joue{animation:voile var(--duree-page) var(--courbe)}
 
-/* coin à corner : invite au feuilletage */
-.coin{position:absolute;bottom:0;width:88px;height:88px;z-index:9;cursor:pointer;
-  transition:transform .3s ease,opacity .3s ease;opacity:0}
-.coin.droite{right:0;background:linear-gradient(225deg,rgba(255,255,255,.85) 0%,rgba(230,222,212,.9) 42%,rgba(140,120,90,.35) 52%,transparent 53%);
-  transform:translate(14px,14px)}
-.coin.gauche{left:0;background:linear-gradient(135deg,rgba(255,255,255,.85) 0%,rgba(230,222,212,.9) 42%,rgba(140,120,90,.35) 52%,transparent 53%);
-  transform:translate(-14px,14px)}
-#book:hover .coin{opacity:.55;transform:translate(0,0)}
-.coin:hover{opacity:1 !important;transform:scale(1.14) !important}
-.coin[hidden]{display:none}
-
 /* ===== Entrée du contenu ===== */
 .page.entree .b-livre,
 .page.entree .b-titre,
@@ -202,6 +191,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .btn:focus-visible{outline:2px solid var(--or-clair);outline-offset:2px}
 #folio{margin-left:auto;font-family:"Source Serif 4",serif;font-weight:600;letter-spacing:.16em;
   color:#7E8DA0;font-size:12px;text-transform:uppercase}
+.btn .kbd{margin-left:9px;padding:1px 6px;font-size:10px;letter-spacing:.06em;
+  border:1px solid rgba(181,148,85,.4);border-radius:2px;color:#B9C6D6;opacity:.8}
 
 .nav{position:fixed;top:50%;z-index:35;width:54px;height:54px;border-radius:50%;
   border:1px solid rgba(181,148,85,.45);color:var(--or-clair);font-size:22px;display:grid;place-items:center;
@@ -211,15 +202,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .nav[disabled]{opacity:.18;pointer-events:none}
 #prev{left:18px} #next{right:18px}
 
-#tabs{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:36;display:flex;flex-direction:column;gap:4px}
-#tabs button{writing-mode:vertical-rl;padding:16px 7px;background:var(--marine);color:var(--or-clair);
-  font-family:"Source Serif 4",serif;font-weight:600;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
-  border-radius:3px 0 0 3px;border:1px solid rgba(181,148,85,.4);border-right:0;
-  transition:background .25s ease,color .25s ease,transform .25s var(--courbe),box-shadow .25s ease}
-#tabs button:hover{transform:translateX(-6px);box-shadow:-4px 0 16px rgba(0,0,0,.4)}
-#tabs button.on{background:var(--or);color:#0A1B33;transform:translateX(-4px)}
-
-#drawer{position:fixed;inset:0 auto 0 0;width:390px;z-index:60;background:#08182C;
+#drawer{position:fixed;inset:0 auto 0 0;width:min(390px,100%);z-index:60;background:#08182C;
   border-right:1px solid rgba(181,148,85,.35);transform:translateX(-100%);
   transition:transform .4s var(--courbe);display:flex;flex-direction:column}
 #drawer.open{transform:none}
@@ -282,23 +265,43 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   border:2px solid rgba(181,148,85,.25);border-top-color:var(--or);animation:tourne 1s linear infinite}
 @keyframes tourne{to{transform:rotate(360deg)}}
 
+/* ===== Mode page unique (écrans étroits / portrait) ===== */
+body.solo #stage{width:742px}
+body.solo #book{background-size:200% 100%;background-position:right center}
+body.solo .page.left{display:none}
+body.solo .page.right{left:0;width:100%}
+body.solo #leaf,body.solo #ombreGouttiere{display:none!important}
+
+/* ===== Adaptations tactiles / petits écrans ===== */
+@media (max-width:640px){
+  #bar{height:48px;padding:0 10px;gap:6px}
+  .btn{padding:6px 11px;font-size:11px;letter-spacing:.09em}
+  .btn .kbd{display:none}
+  #folio{font-size:10px;letter-spacing:.05em}
+  .nav{width:44px;height:44px;font-size:19px}
+  #prev{left:7px} #next{right:7px}
+  #drawer header{padding:18px 18px 14px}
+  #drawer h3{font-size:21px}
+}
+@media (max-width:380px){
+  .nav{display:none}  /* place trop réduite : on navigue au swipe / flèches clavier */
+}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
     transition-duration:.01ms !important}
-  #stage{transform:scale(var(--s,1)) !important}
+  #stage{transform:translate(-50%,-50%) scale(var(--s,1)) !important}
 }
 </style>
 
 <div id="bar">
-  <button class="btn" id="openToc">Sommaire</button>
-  <button class="btn" id="openSearch">Rechercher</button>
+  <button class="btn" id="openToc" title="Ouvrir le sommaire et la recherche">Sommaire &amp; recherche<span class="kbd">/</span></button>
   <button class="btn" id="fermerLivre">Couverture</button>
   <div id="folio"></div>
 </div>
 
 <button class="nav" id="prev" aria-label="Page précédente">‹</button>
 <button class="nav" id="next" aria-label="Page suivante">›</button>
-<div id="tabs"></div>
 
 <div id="scene"><div id="stage">
   <div id="book">
@@ -306,8 +309,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     <div class="page right" id="pgR"></div>
     <div id="ombreGouttiere"></div>
     <div id="leaf"><div class="face front"></div><div class="face back"></div></div>
-    <div class="coin gauche" id="coinG" title="Page précédente"></div>
-    <div class="coin droite" id="coinD" title="Page suivante"></div>
   </div>
 </div></div>
 
@@ -354,7 +355,7 @@ const gardeHTML = () => `<div class="garde">
   <div class="devise">${esc(META.devise||"")}</div></div>`;
 const blocLivre = l => `<div class="b-livre"><span class="tag">${esc(l.livre)}</span>
   <h2>${esc(l.nom)}</h2><div class="rule">&#10070;</div></div>`;
-const blocTitre = (t,i) => `<div class="b-titre"><div class="k">Titre ${romain(i+1)}</div>
+const blocTitre = (t,i) => `<div class="b-titre"><div class="k">Section ${romain(i+1)}</div>
   <div class="n">${esc(t.nom)}</div></div>`;
 const blocArticle = a => `<div class="b-art" id="art-${esc(a.n)}">
   <div class="num"><small>Article</small><b>${esc(a.n)}</b></div>
@@ -362,10 +363,10 @@ const blocArticle = a => `<div class="b-art" id="art-${esc(a.n)}">
   ${a.peine?`<div class="peine">${esc(a.peine)}</div>`:""}</div></div>`;
 
 /* ---------- Pagination mesurée ---------- */
-const pages=[], indexArticles=[], ancresLivre=[];
+const pages=[], indexArticles=[];
 
 function paginer(){
-  pages.length=0; indexArticles.length=0; ancresLivre.length=0;
+  pages.length=0; indexArticles.length=0;
   pages.push({garde:true});
   pages.push({sommaire:true});
 
@@ -389,7 +390,6 @@ function paginer(){
 
   CODE.forEach(l=>{
     pousser();
-    ancresLivre.push({livre:l.livre, nom:l.nom, page:pages.length});
     tente(blocLivre(l));
     (l.titres||[]).forEach((t,i)=>{
       tente(blocTitre(t,i));
@@ -411,7 +411,7 @@ function sommaireHTML(){
   CODE.forEach(l=>{
     h+=`<div class="sl">${esc(l.livre)} &mdash; ${esc(l.nom)}</div>`;
     (l.titres||[]).forEach((t,i)=>{
-      h+=`<div class="st">Titre ${romain(i+1)} &middot; ${esc(t.nom)}</div>`;
+      h+=`<div class="st">Section ${romain(i+1)} &middot; ${esc(t.nom)}</div>`;
       (t.articles||[]).forEach(a=>{
         const e=indexArticles.find(x=>x.n===a.n);
         h+=`<div class="sa" data-p="${e.page}" data-n="${esc(a.n)}"><b>${esc(a.n)}</b>
@@ -425,9 +425,18 @@ function sommaireHTML(){
 /* ---------- Rendu & feuilletage ---------- */
 const pgL=document.getElementById("pgL"), pgR=document.getElementById("pgR"),
       leaf=document.getElementById("leaf"), book=document.getElementById("book"),
-      ombre=document.getElementById("ombreGouttiere"),
-      coinG=document.getElementById("coinG"), coinD=document.getElementById("coinD");
-let i=0, anim=false, dernierArt=null;
+      ombre=document.getElementById("ombreGouttiere");
+let i=0, anim=false, dernierArt=null, SOLO=false;
+
+/* bascule double-page ⇄ page unique selon la largeur */
+function mode(){
+  const solo=innerWidth<900;
+  if(solo===SOLO) return;
+  SOLO=solo;
+  document.body.classList.toggle("solo",SOLO);
+  if(!SOLO && i%2) i--;          // la double-page démarre sur un index pair
+  peindre();
+}
 
 function corps(idx){
   const p=pages[idx];
@@ -436,19 +445,22 @@ function corps(idx){
   return `${headHTML()}<div class="page-inner${p.scroll?" scroll":""}">${p.blocs.join("")}</div>${footHTML(idx+1)}`;
 }
 function peindre(){
-  pgL.innerHTML=corps(i); pgR.innerHTML=corps(i+1);
-  const debut=(i===0), fin=(i+2>=pages.length);
+  const debut=(i===0), fin=SOLO ? (i+1>=pages.length) : (i+2>=pages.length);
+  if(SOLO){
+    pgR.innerHTML=corps(i); pgL.innerHTML="";
+    document.getElementById("folio").textContent=`Page ${i+1} sur ${pages.length}`;
+  }else{
+    pgL.innerHTML=corps(i); pgR.innerHTML=corps(i+1);
+    document.getElementById("folio").textContent=`Page ${i+1}–${i+2} sur ${pages.length}`;
+  }
   document.getElementById("prev").disabled=debut;
   document.getElementById("next").disabled=fin;
-  coinG.hidden=debut; coinD.hidden=fin;
-  document.getElementById("folio").textContent=`Page ${i+1}–${i+2} sur ${pages.length}`;
-  const l=[...ancresLivre].reverse().find(a=>a.page<=i+1);
-  document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on", !!l&&b.dataset.livre===l.livre));
 }
 function tourner(sens){
   if(anim) return;
-  const cible=i+sens*2;
+  const cible=i+sens*(SOLO?1:2);
   if(cible<0||cible>=pages.length) return;
+  if(SOLO){ i=cible; doux()?peindre():fondu(); return; }
   if(doux()){ i=cible; peindre(); return; }
   anim=true;
   const f=leaf.querySelector(".front"), b=leaf.querySelector(".back");
@@ -476,7 +488,8 @@ function fondu(){
   setTimeout(()=>[pgL,pgR].forEach(p=>p.classList.remove("entree")),900);
 }
 function allerA(page){
-  const cible=Math.max(0,Math.min(page%2?page-1:page, pages.length-2));
+  const cible=SOLO ? Math.max(0,Math.min(page, pages.length-1))
+                   : Math.max(0,Math.min(page%2?page-1:page, pages.length-2));
   ouvrirLivre();
   if(cible!==i){ i=cible; fondu(); }
   fermer(); setTimeout(surligner,120);
@@ -498,7 +511,7 @@ function rendreToc(filtre=""){
   const f=norm(filtre.trim());
   if(!f){
     toc.innerHTML=CODE.map(l=>`<div class="l">${esc(l.livre)} &mdash; ${esc(l.nom)}</div>`+
-      (l.titres||[]).map((t,k)=>`<div class="t">Titre ${romain(k+1)} &middot; ${esc(t.nom)}</div>`+
+      (l.titres||[]).map((t,k)=>`<div class="t">Section ${romain(k+1)} &middot; ${esc(t.nom)}</div>`+
         (t.articles||[]).map(a=>ligne(indexArticles.find(x=>x.n===a.n))).join("")).join("")).join("");
   }else{
     const res=indexArticles.filter(a=>norm(a.texte).includes(f)||String(a.n).includes(f));
@@ -517,7 +530,6 @@ q.addEventListener("input",()=>rendreToc(q.value));
 const ouvrir=f=>{ drawer.classList.add("open"); scrim.classList.add("on"); if(f){q.focus();q.select();} };
 const fermer=()=>{ drawer.classList.remove("open"); scrim.classList.remove("on"); };
 document.getElementById("openToc").onclick=()=>{ ouvrirLivre(); ouvrir(false); };
-document.getElementById("openSearch").onclick=()=>{ ouvrirLivre(); ouvrir(true); };
 scrim.onclick=fermer;
 
 /* ---------- Couverture ---------- */
@@ -536,8 +548,6 @@ document.getElementById("fermerLivre").onclick=fermerLivre;
 /* ---------- Navigation ---------- */
 document.getElementById("prev").onclick=()=>tourner(-1);
 document.getElementById("next").onclick=()=>tourner(1);
-coinD.onclick=()=>tourner(1);
-coinG.onclick=()=>tourner(-1);
 addEventListener("keydown",e=>{
   if(e.key==="Escape"){ fermer(); return; }
   if((e.ctrlKey||e.metaKey)&&e.key==="f"){ e.preventDefault(); ouvrirLivre(); ouvrir(true); return; }
@@ -550,7 +560,7 @@ addEventListener("keydown",e=>{
   if(e.key==="ArrowRight"||e.key===" "){ e.preventDefault(); tourner(1); }
   if(e.key==="ArrowLeft") tourner(-1);
   if(e.key==="Home") allerA(0);
-  if(e.key==="End") allerA(pages.length-2);
+  if(e.key==="End") allerA(pages.length-1);
 });
 let x0=null;
 book.addEventListener("pointerdown",e=>{ x0 = e.target.closest(".scroll") ? null : e.clientX; });
@@ -560,16 +570,11 @@ book.addEventListener("pointerup",e=>{ if(x0===null) return;
 /* ---------- Échelle + parallaxe ---------- */
 const stage=document.getElementById("stage");
 function ajuster(){
-  const s=Math.min(innerWidth/1540,(innerHeight-80)/1120,1);
+  const W=(SOLO?742:1484)+56, H=1120;
+  const s=Math.min(innerWidth/W,(innerHeight-56)/H,1);
   stage.style.setProperty("--s",s);
 }
-addEventListener("resize",ajuster);
-addEventListener("pointermove",e=>{
-  if(doux()||ferme()) return;
-  const rx=(.5-e.clientY/innerHeight)*2.2, ry=(e.clientX/innerWidth-.5)*2.6;
-  stage.style.setProperty("--rx",rx.toFixed(2)+"deg");
-  stage.style.setProperty("--ry",ry.toFixed(2)+"deg");
-});
+addEventListener("resize",()=>{ mode(); ajuster(); });
 
 /* ---------- Chargement ---------- */
 function panne(titre,corpsHTML){
@@ -602,10 +607,7 @@ async function demarrer(){
   if(!CODE.length){ panne("Le recueil est vide",`<p>Ajoute au moins un livre dans <b>${FICHIER}</b>.</p>`); return; }
 
   paginer();
-  document.getElementById("tabs").innerHTML=ancresLivre.map(a=>
-    `<button data-livre="${esc(a.livre)}" data-p="${a.page}" title="${esc(a.nom)}">${esc(a.livre)}</button>`).join("");
-  document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>allerA(+b.dataset.p));
-  rendreToc(); peindre(); ajuster();
+  mode(); rendreToc(); peindre(); ajuster();
   document.getElementById("etat").classList.add("parti");
 
   const m=location.hash.match(/^#art-(\w+)$/);
