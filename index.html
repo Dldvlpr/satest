@@ -2,7 +2,7 @@
 <html lang="fr">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Penal Code — The State of San Andreas</title>
+<title>State Codes — The State of San Andreas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
@@ -355,11 +355,10 @@ const gardeHTML = () => `<div class="garde">
   <div class="devise">${esc(META.devise||"")}</div></div>`;
 const blocLivre = l => `<div class="b-livre"><span class="tag">${esc(l.livre)}</span>
   <h2>${esc(l.nom)}</h2><div class="rule">&#10070;</div></div>`;
-const blocTitre = (t,i) => `<div class="b-titre"><div class="k">Section ${romain(i+1)}</div>
-  <div class="n">${esc(t.nom)}</div></div>`;
-const blocArticle = a => `<div class="b-art" id="art-${esc(a.n)}">
+const blocTitre = (t,i) => `<div class="b-titre">${t.nom?`<div class="n">${esc(t.nom)}</div>`:""}</div>`;
+const blocArticle = a => `<div class="b-art" id="art-${esc(a.uid)}">
   <div class="num"><small>Article</small><b>${esc(a.n)}</b></div>
-  <div><h3>${esc(a.t)}</h3>${(a.p||[]).map(x=>`<p>${esc(x)}</p>`).join("")}
+  <div>${a.t?`<h3>${esc(a.t)}</h3>`:""}${(a.p||[]).map(x=>`<p>${esc(x)}</p>`).join("")}
   ${a.peine?`<div class="peine">${esc(a.peine)}</div>`:""}</div></div>`;
 
 /* ---------- Pagination mesurée ---------- */
@@ -395,8 +394,8 @@ function paginer(){
       tente(blocTitre(t,i));
       (t.articles||[]).forEach(a=>{
         const p=tente(blocArticle(a));
-        indexArticles.push({n:a.n, t:a.t, livre:l.livre, titre:t.nom,
-          texte:(a.t+" "+(a.p||[]).join(" ")+" "+(a.peine||"")).toLowerCase(), page:p});
+        indexArticles.push({uid:a.uid, n:a.n, t:a.t, livre:l.livre, titre:t.nom,
+          texte:(a.n+" "+a.t+" "+(a.p||[]).join(" ")+" "+(a.peine||"")).toLowerCase(), page:p});
       });
     });
   });
@@ -411,10 +410,10 @@ function sommaireHTML(){
   CODE.forEach(l=>{
     h+=`<div class="sl">${esc(l.livre)} &mdash; ${esc(l.nom)}</div>`;
     (l.titres||[]).forEach((t,i)=>{
-      h+=`<div class="st">Section ${romain(i+1)} &middot; ${esc(t.nom)}</div>`;
+      if(t.nom) h+=`<div class="st">${esc(t.nom)}</div>`;
       (t.articles||[]).forEach(a=>{
-        const e=indexArticles.find(x=>x.n===a.n);
-        h+=`<div class="sa" data-p="${e.page}" data-n="${esc(a.n)}"><b>${esc(a.n)}</b>
+        const e=indexArticles.find(x=>x.uid===a.uid);
+        h+=`<div class="sa" data-p="${e.page}" data-n="${esc(a.uid)}"><b>${esc(a.n)}</b>
           <span>${esc(a.t)}</span><span class="pt"></span><i>${e.page+1}</i></div>`;
       });
     });
@@ -504,15 +503,15 @@ function surligner(){
 const toc=document.getElementById("toc"), drawer=document.getElementById("drawer"),
       scrim=document.getElementById("scrim"), q=document.getElementById("q");
 
-const ligne = a => `<a href="#art-${esc(a.n)}" data-p="${a.page}" data-n="${esc(a.n)}">
+const ligne = a => `<a href="#art-${esc(a.uid)}" data-p="${a.page}" data-n="${esc(a.uid)}">
   <b>${esc(a.n)}</b><span>${esc(a.t)}</span><i>p.${a.page+1}</i></a>`;
 
 function rendreToc(filtre=""){
   const f=norm(filtre.trim());
   if(!f){
     toc.innerHTML=CODE.map(l=>`<div class="l">${esc(l.livre)} &mdash; ${esc(l.nom)}</div>`+
-      (l.titres||[]).map((t,k)=>`<div class="t">Section ${romain(k+1)} &middot; ${esc(t.nom)}</div>`+
-        (t.articles||[]).map(a=>ligne(indexArticles.find(x=>x.n===a.n))).join("")).join("")).join("");
+      (l.titres||[]).map((t,k)=>`${t.nom?`<div class="t">${esc(t.nom)}</div>`:""}`+
+        (t.articles||[]).map(a=>ligne(indexArticles.find(x=>x.uid===a.uid))).join("")).join("")).join("");
   }else{
     const res=indexArticles.filter(a=>norm(a.texte).includes(f)||String(a.n).includes(f));
     toc.innerHTML = res.length ? res.map(ligne).join("")
@@ -606,13 +605,17 @@ async function demarrer(){
   META=data.meta||{}; CODE=data.livres||[];
   if(!CODE.length){ panne("Le recueil est vide",`<p>Ajoute au moins un livre dans <b>${FICHIER}</b>.</p>`); return; }
 
+  /* identifiant unique par article (les n° se répètent d'un code à l'autre) */
+  let _uid=0;
+  CODE.forEach(l=>(l.titres||[]).forEach(t=>(t.articles||[]).forEach(a=>{ a.uid="u"+(++_uid); })));
+
   paginer();
   mode(); rendreToc(); peindre(); ajuster();
   document.getElementById("etat").classList.add("parti");
 
-  const m=location.hash.match(/^#art-(\w+)$/);
-  if(m){ const e=indexArticles.find(a=>String(a.n)===m[1]);
-    if(e){ dernierArt=e.n; allerA(e.page); } }
+  const m=location.hash.match(/^#art-([\w-]+)$/);
+  if(m){ const e=indexArticles.find(a=>a.uid===m[1])||indexArticles.find(a=>String(a.n)===m[1]);
+    if(e){ dernierArt=e.uid; allerA(e.page); } }
 }
 document.fonts ? document.fonts.ready.then(demarrer) : demarrer();
 </script>
